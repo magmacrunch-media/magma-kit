@@ -4,6 +4,7 @@
     "../../apps/sprite-forge",
     "../../apps/magmacrunch-ops/clients/magma-ops-app",
     "../../apps/deck-press",
-    "../../apps/gatefold"
+    "../../apps/gatefold",
+    "../../apps/bot-farm"
   ]
 }
