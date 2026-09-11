@@ -4,7 +4,7 @@
 //   node scripts/new-app.mjs ../my-app --name "MY//APP" --ns MyApp
 //   node scripts/new-app.mjs ../my-app --name "MY//APP" --ns MyApp --from ../sprite-forge
 //
-// Copies the template, replaces five placeholders, syncs the kit, and — given
+// Copies the template, replaces six placeholders, syncs the kit, and — given
 // --from — carries the chrome across from an existing app so the result builds
 // and runs on the first try rather than after a six-step checklist.
 //
@@ -27,6 +27,7 @@
 //
 // Placeholders:
 //   __APP_NAME__       display name, e.g. "CARD//FORGE"
+//   __APP_PRODUCT__    Tauri productName, e.g. "CARD FORGE" (see productName)
 //   __APP_NS__         JS namespace, e.g. CardForge
 //   __app_slug__       kebab id, e.g. card-forge (crate name, bundle id, log)
 //   __app_snake__      snake id, e.g. card_forge (Rust lib name)
@@ -51,10 +52,22 @@ const DONATED = [
 // name to stamp.
 const BINARY = /\.(png|ico|icns|woff2?|ttf|svg)$/i;
 
+// Tauri validates productName against ^[^/:*?"<>|]+$ and refuses the whole
+// config otherwise, because the name becomes the installer and executable
+// file name. So the "//" in a display name has to go: CARD//FORGE ships as
+// CARD FORGE. Every app stamped before this placeholder existed made that
+// edit by hand after stamping. Any run of forbidden characters becomes one
+// space, which for the family's "//" names is exactly that edit. The window
+// title and descriptions are not validated and keep __APP_NAME__.
+function productName(name) {
+    return name.replace(/[/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 function replacements(name, ns) {
     const slug = ns.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
     return {
         __APP_NAME__: name,
+        __APP_PRODUCT__: productName(name),
         __APP_NS__: ns,
         __app_slug__: slug,
         __app_snake__: slug.replaceAll('-', '_'),
@@ -100,6 +113,11 @@ const name = flag('--name') || basename(root).toUpperCase();
 
 if (existsSync(root) && readdirSync(root).length) {
     console.error(`${root} exists and is not empty — refusing to stamp over it`);
+    process.exit(1);
+}
+
+if (!productName(name)) {
+    console.error(`--name ${JSON.stringify(name)} leaves no product name once / : * ? " < > | are removed`);
     process.exit(1);
 }
 

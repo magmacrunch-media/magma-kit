@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "__APP_NAME__",
+  "productName": "__APP_PRODUCT__",
   "version": "0.1.0",
   "identifier": "com.magmacrunch.__app_slug__",
   "build": {
