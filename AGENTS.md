@@ -61,6 +61,28 @@ consumers pin the SAME version, since one kit file now rides the shape.
 Absence of `MagmaKit.tauri` is the desktop/web feature switch; nothing
 downstream ever asks "are we in Tauri".
 
+### invoke takes Tauri's third argument, and a raw body needs it
+
+`invoke(cmd, args, options)` and `dialog(cmd, args, options)` forward all three.
+The third one matters because of what the first one can be: a payload that IS
+bytes — an ArrayBuffer, a view, or an Array — is sent as
+application/octet-stream instead of being serialised, and that is the only
+affordable way to move a large one. A Uint8Array reached through an object
+becomes a JSON array of numbers, which deck-press measured at 1.3 GB of heap
+and 100 MB of wire for 50 MB of image data.
+
+A raw payload is the whole body, so a command's other arguments have nowhere to
+go but `options.headers`, which Tauri deserialises into
+`tauri::ipc::Request::headers()`. Forwarding two arguments made that
+unreachable; deck-press framed its path into the front of the body instead.
+
+**Header values must be visible ASCII.** Tauri builds them with
+`HeaderValue::from_str`, which refuses anything else and fails the whole invoke
+rather than the one header — so a path is not something you can put in one, and
+`C:\decks\Tarot de Épée.deckpack` is the case that proves it. Encode it, or
+frame it into the body. deck-press's frame is the right answer there, not a
+leftover to be migrated.
+
 ## crate/ exposes plain functions, not commands
 
 Apps keep three-line `#[tauri::command]` wrappers so each app's
@@ -85,8 +107,22 @@ change to `js/`, `testkit/`, or the manifest; the version lands in consumers'
 
 ## Git
 
-Commit as magmacrunch media <magmacrunchmedia@gmail.com>. No AI attribution
-in commits, code comments, or docs.
+Commit as magmacrunchmedia <magmacrunchmedia@gmail.com> — ONE WORD, and by
+doing nothing: `~/.gitconfig` already resolves to it here.
+
+This file used to say `magmacrunch media`, with a space, which is what a local
+`user.name` in this repo once set. That override was cleared on 2026-09-04,
+along with the same one in gatefold and sprite-forge, so the instruction had
+outlived the thing it described — and following it would mean re-adding the
+override that was deliberately removed. **Do not set `user.name` or
+`user.email` per repo.** `git -C . config user.email` is how you check.
+
+The spaced spelling stays in the history, on commits that were made under it,
+and is not a live misconfiguration. `crate/Cargo.toml` keeps
+`authors = ["magmacrunch media"]`, which is package metadata rather than an
+identity and is spelled that way in the consumers too.
+
+No AI attribution in commits, code comments, or docs.
 
 ## What the kit refuses
 

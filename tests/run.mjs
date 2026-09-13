@@ -10,6 +10,7 @@ const suites = [
     './modal.test.mjs',
     './dom.test.mjs', './artstore.test.mjs', './menu.test.mjs',
     './boot.test.mjs',
+    './bridge-core.test.mjs',
     './harness.test.mjs',
     './versions.test.mjs',
     './sync.test.mjs',

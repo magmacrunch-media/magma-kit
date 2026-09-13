@@ -1,6 +1,6 @@
 {
   "name": "magma-kit",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "description": "Shared desktop-app kit: classic-script JS modules, a Tauri-side Rust crate, and a project template. Vendored into consumers by scripts/sync.mjs.",
   "license": "PolyForm-Noncommercial-1.0.0",

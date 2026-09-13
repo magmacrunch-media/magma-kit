@@ -12,7 +12,7 @@
 
 [package]
 name = "magma-kit"
-version = "0.2.1"
+version = "0.3.0"
 description = "Shared Tauri-app infrastructure: fs bridge, log file, popover anchoring, dirty tracking, autostart"
 edition = "2021"
 rust-version = "1.77"
