@@ -5,6 +5,7 @@
     "../../apps/magmacrunch-ops/clients/magma-ops-app",
     "../../apps/deck-press",
     "../../apps/gatefold",
-    "../../apps/bot-farm"
+    "../../apps/bot-farm",
+    "../../apps/font-litho"
   ]
 }
