@@ -16,6 +16,7 @@ const suites = [
     './sync.test.mjs',
     './kit-integrity.test.mjs',
     './new-app.test.mjs',
+    './agents-git.test.mjs',
     // Last, and the only suite that reaches outside this repo: it asks whether
     // the apps vendoring this kit still hold the current copy. Consumers that
     // are not checked out are skipped, not failed.
