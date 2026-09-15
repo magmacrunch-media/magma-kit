@@ -90,3 +90,9 @@ person does not have to rediscover them.
   filename in the header. sprite-forge and gatefold have full versions and
   deck-press has half of one, so extracting today would mean designing the
   union rather than lifting it. Revisit with three real copies to diff.
+
+## Support This Project
+
+If you find this useful, consider supporting its development:
+
+[![Sponsor](https://img.shields.io/badge/%E2%9D%A4_Sponsor-pink)](https://github.com/sponsors/magmacrunch-media)
