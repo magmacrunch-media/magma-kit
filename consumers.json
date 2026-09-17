@@ -6,6 +6,7 @@
     "../../apps/deck-press",
     "../../apps/gatefold",
     "../../apps/bot-farm",
-    "../../apps/font-litho"
+    "../../apps/font-litho",
+    "../daffodil/editor"
   ]
 }
